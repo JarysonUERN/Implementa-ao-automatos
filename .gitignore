@@ -1,55 +1,24 @@
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
+# Ignorar arquivos binários gerados durante a compilação
 *.exe
+*.o
+*.obj
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
 *.pdb
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Ignorar arquivos temporários ou de cache
+*.bak
+*.swp
+*.tmp
 
-# debug information files
-*.dwo
+# Ignorar diretórios específicos de IDEs ou editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar arquivos específicos de sistema operacional (Windows)
+Thumbs.db
+desktop.ini
+
+# Outros arquivos que podem ser específicos para seu projeto
+*.log
