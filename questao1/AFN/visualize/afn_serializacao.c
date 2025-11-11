@@ -109,7 +109,7 @@ void salvarAFN_JSON(
     } else {
         fprintf(f, "%s", saida);
         fclose(f);
-        printf("\n[Info] Arquivo 'afn.json' gerado com sucesso!\n");
+        printf("\nArquivo 'afn.json' gerado com sucesso!\n");
     }
 
     free(saida);

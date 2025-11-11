@@ -3,7 +3,9 @@
 #include <stdbool.h>
 #define MAX_ESTADOS 50
 #define MAX_ALFABETO 10
- 
+#define LAMBDA_CHAR 'e'
+
+
 void salvarAFN_JSON(
     int num_estados,
     int tam_alfabeto,
