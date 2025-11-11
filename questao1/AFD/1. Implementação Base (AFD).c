@@ -15,11 +15,16 @@ armazena o estado de destino ao sair do estado i com o símbolo j.$q_0$
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
-#include "afd_serializacao.h"
 #include <stdbool.h>
+#include "visualize/afd_serializacao.h"
+#include "visualize/afd_serializacao.c"
+#include "cJSON-1.7.19/cJSON.h"
 // Definindo limites máximos para alocação estática
 #define MAX_ESTADOS 50
 #define MAX_ALFABETO 10
+
+// Protótipos de funções
+void simularAFD(char* cadeia, int estadoInicial, bool estadosFinais[MAX_ESTADOS], int transicoes[MAX_ESTADOS][MAX_ALFABETO], char alfabeto[MAX_ALFABETO], int tam_alfabeto);
  
 // Função para ler o número de estados
 int leNumEstados()
