@@ -15,6 +15,7 @@ armazena o estado de destino ao sair do estado i com o símbolo j.$q_0$
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
+#include "afd_serializacao.h"
 #include <stdbool.h>
 // Definindo limites máximos para alocação estática
 #define MAX_ESTADOS 50
@@ -272,6 +273,8 @@ int main()
         printf("Opcao invalida.\n");
         goto validacao;
     }
+    // Serializa o AFD em formato JSON
+    salvarAFD_JSON(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
     return 0;
 }
 // b. Implementar uma função que simule a execução do AFD, verificando se uma cadeia é ACEITA ou REJEITA.
