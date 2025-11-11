@@ -4,6 +4,9 @@
 *.obj
 *.out
 *.pdb
+# Ignorar arquivos JSON gerados
+*.json 
+
 
 # Ignorar arquivos temporários ou de cache
 *.bak

@@ -1,7 +1,3 @@
-
-// a. Implementar a representação de um AFD.
-
-
 /*
 Um AFD é formalmente definido por 5 componentes (a 5-tupla: $Q, \Sigma, \delta, q_0, F$):
 $Q$ (Conjunto de Estados): Representado por num_estados.$\Sigma$ 
@@ -18,10 +14,12 @@ armazena o estado de destino ao sair do estado i com o símbolo j.$q_0$
 #include <stdbool.h>
 #include "visualize/afd_serializacao.h"
 #include "visualize/afd_serializacao.c"
-#include "cJSON-1.7.19/cJSON.h"
+#include "../cJSON-1.7.19/cJSON.h"
 // Definindo limites máximos para alocação estática
 #define MAX_ESTADOS 50
 #define MAX_ALFABETO 10
+
+// a. Implementar a representação de um AFD.
 
 // Protótipos de funções
 void simularAFD(char* cadeia, int estadoInicial, bool estadosFinais[MAX_ESTADOS], int transicoes[MAX_ESTADOS][MAX_ALFABETO], char alfabeto[MAX_ALFABETO], int tam_alfabeto);

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../cJSON-1.7.19/cJSON.h"
-#include "../cJSON-1.7.19/cJSON.c"
+#include "../../cJSON-1.7.19/cJSON.h"
+#include "../../cJSON-1.7.19/cJSON.c"
 #include "afd_serializacao.h"
 
 void salvarAFD_JSON(
