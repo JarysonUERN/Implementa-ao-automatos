@@ -6,7 +6,7 @@
 #include "afn_serializacao.h" 
 
 // Caractere usado para representar lambda no JSON
-#define LAMBDA_CHAR 'e' 
+#define LAMBDA "lambda" 
 
 void salvarAFN_JSON(
     int num_estados,

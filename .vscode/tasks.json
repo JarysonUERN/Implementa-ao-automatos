@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "cwd": "${workspaceFolder}"
+  },
+  "tasks": [
+    {
+      "label": "Compilar AFD",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-m", "PyInstaller",
+        "--onefile",
+        "--distpath", "../questao1/AFD/Output",
+        "--add-data", "../questao1/AFD/output/AFDconvertido.JSON;output",
+        "../questao1/AFD/visualize/visualizar_afd.py",
+        "--log-level", "DEBUG"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "clear": true
+      }
+    },
+    {
+      "label": "Compilar AFN",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-m", "PyInstaller",
+        "--onefile",
+        "--distpath", "questao1/AFN/Output",
+        "--add-data", "questao1/AFN/output/AFNconvertido.JSON;output",
+        "questao1/AFN/visualize/visualizar_afn.py",
+        "--log-level", "DEBUG"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "clear": true
+      }
+    },
+    {
+      "label": "Compilar AFN_para_AFD",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-m", "PyInstaller",
+        "--onefile",
+        "--distpath", "questao1/AFN_para_AFD/Output",
+        "--add-data", "questao1/AFN_para_AFD/output/AFDconvertido.JSON;output",
+        "questao1/AFN_para_AFD/visualize/visualizar_afdCONVERTIDO.py",
+        "--log-level", "DEBUG"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "clear": true
+      }
+    }
+  ]
+}

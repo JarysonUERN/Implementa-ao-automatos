@@ -12,13 +12,10 @@ def visualizar_afd(caminho_json=None):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         caminho_json = os.path.abspath(os.path.join(base_dir, "..", "output", "AFDconvertido.JSON"))
 
-    # Normaliza path e checa existência
     caminho_json = os.path.normpath(caminho_json)
     if not os.path.exists(caminho_json):
         print(f"Arquivo não encontrado: {caminho_json}")
         return
-
-    # Lê o arquivo JSON gerado pelo C
     try:
         with open(caminho_json, "r", encoding="utf-8") as f:
             afd = json.load(f)
@@ -26,7 +23,6 @@ def visualizar_afd(caminho_json=None):
         print(f"Erro ao ler/parsear JSON: {e}")
         return
 
-    # Validação mínima do JSON esperado
     for chave in ("estados", "alfabeto", "transicoes", "estado_inicial", "finais"):
         if chave not in afd:
             print(f"JSON inválido: falta a chave '{chave}'")
@@ -38,14 +34,11 @@ def visualizar_afd(caminho_json=None):
     estado_inicial = afd["estado_inicial"]
     finais = afd["finais"]
 
-    # Cria um grafo direcionado
     G = nx.DiGraph()
 
-    # Adiciona os nós
     for e in estados:
         G.add_node(e)
 
-    # Adiciona as transições (arestas com rótulos)
     for t in transicoes:
         origem = t.get("de")
         destino = t.get("para")
@@ -58,27 +51,16 @@ def visualizar_afd(caminho_json=None):
         else:
             G.add_edge(origem, destino, label=str(simbolo))
 
-    # Define posição dos nós (automático)
     pos = nx.spring_layout(G, seed=42)
-
-    # Prepara a figura
     plt.figure(figsize=(10, 7))
 
-    # --- NOVO: Adiciona a seta de entrada "atrás" do nó ---
-    
-    # Pega a coordenada exata do nó inicial
     initial_node_pos = pos[estado_inicial]
-    
-    # Define um ponto de início para a seta (um pouco à esquerda)
-    # Ajuste o valor -0.4 para mover a seta mais para longe ou perto
     arrow_start_point = (initial_node_pos[0] - 0.4, initial_node_pos[1])
-
-    # Adiciona a anotação (a seta)
     plt.annotate(
-        "",  # Sem texto
-        xy=initial_node_pos,  # Ponto de destino (o nó)
+        "",  
+        xy=initial_node_pos,  
         xycoords='data',
-        xytext=arrow_start_point,  # Ponto de origem (de onde a seta vem)
+        xytext=arrow_start_point,  
         textcoords='data',
         arrowprops=dict(
         arrowstyle="->",

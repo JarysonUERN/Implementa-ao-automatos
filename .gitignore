@@ -6,6 +6,9 @@
 *.pdb
 # Ignorar arquivos JSON gerados
 *.json 
+# Exceção para tasks.json na raiz do projeto
+!tasks.json 
+
 
 
 # Ignorar arquivos temporários ou de cache
@@ -14,7 +17,6 @@
 *.tmp
 
 # Ignorar diretórios específicos de IDEs ou editores
-.vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
