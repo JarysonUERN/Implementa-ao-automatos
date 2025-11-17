@@ -432,7 +432,8 @@ int main()
     defineEstadosFinais(num_estados, estadosFinais);
     int estadoInicial = defineEstadoInicial(num_estados);
     mostraTabelaTransicoesAFN(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
-    
+       // Serializa o AFN em formato JSON
+        salvarAFN_JSON(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
 
     // Menu de simulação
     int opcao_menu = -1;
@@ -447,8 +448,6 @@ int main()
 
     if (opcao_menu == 0) {
         printf("\nSimulacao do AFN ignorada pelo usuario.\n");
-        // Serializa o AFN em formato JSON
-        salvarAFN_JSON(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
     } 
 
     else if (opcao_menu == 1) { 

@@ -218,8 +218,11 @@ int main()
     defineTransicoes(num_estados, tam_alfabeto, alfabeto, transicoes);
     defineEstadosFinais(num_estados, estadosFinais);
     int estadoInicial = defineEstadoInicial(num_estados);
+     salvarAFD_JSON(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
+     // salvar em arquivo JSON
     mostraTabelaTransicoes(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
    int opcao;
+   
    validacao:
    printf("\nDeseja simular uma cadeia? (1-Sim, 0-Nao): ");
     scanf("%d", &opcao);
@@ -243,8 +246,6 @@ int main()
         printf("Opcao invalida.\n");
         goto validacao;
     }
-    // Serializa o AFD em formato JSON
-    salvarAFD_JSON(num_estados, tam_alfabeto, alfabeto, transicoes, estadosFinais, estadoInicial);
     return 0;
 }
 // b. Implementar uma função que simule a execução do AFD, verificando se uma cadeia é ACEITA ou REJEITA.
