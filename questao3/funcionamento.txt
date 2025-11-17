@@ -1,0 +1,31 @@
+A máquina de Turing que criamos tem o objetivo de inverter os bits de uma entrada binária, substituindo 0 por 1 e 1 por 0, até atingir o fim da fita, representado por um símbolo _ (espaço em branco). A descrição formal dessa máquina é a seguinte:
+
+(
+    {q0, q_accept, q_reject},         # Conjunto de estados
+    {0, 1},                           # Alfabeto da máquina (símbolos de entrada)
+    {0, 1, _},                        # Alfabeto da fita
+    {
+        (q0, 0) -> (q0, 1, D),         # Em q0, se ler 0, troca por 1 e move à direita
+        (q0, 1) -> (q0, 0, D),         # Em q0, se ler 1, troca por 0 e move à direita
+        (q0, _) -> (q_accept, _, D)    # Em q0, se ler o fim da fita (_), aceita
+    },
+    q0,                               # Estado inicial
+    {q_accept}                        # Conjunto de estados finais
+)
+
+
+A máquina começa no estado q0, onde lê o primeiro símbolo da fita. Se encontrar um 0, substitui por 1 e move a cabeça da fita para a direita. Se encontrar um 1, faz o oposto, substituindo por 0 e também movendo a cabeça para a direita. O processo continua até que a máquina encontre o símbolo _, que indica o fim da fita. Nesse ponto, a máquina entra no estado de aceitação q_accept, sinalizando que o processamento foi concluído com sucesso. Se a máquina tentar realizar uma transição inválida, ela entrará no estado q_reject.
+
+Para ilustrar o comportamento da máquina, considere a entrada "0101". Durante a execução, a máquina transforma a fita da seguinte maneira: começa com "0101", substitui os 0 por 1 e os 1 por 0, resultando em "1000", e então aceita a entrada ao atingir o fim da fita (_). O processo ocorre da seguinte maneira:
+
+No estado q0, lê 0, substitui por 1 e move à direita.
+
+Em seguida, lê 1, substitui por 0 e move à direita.
+
+Depois, lê 0, substitui por 1 e move à direita.
+
+Finalmente, lê o símbolo _, vai para o estado q_accept e a execução termina com a entrada invertida: "1000".
+
+A implementação em Python segue esse comportamento, usando um dicionário de transições para definir as regras de mudança de estado. Quando a máquina encontra um símbolo de entrada, ela escreve o novo valor na fita, atualiza o estado e move a cabeça da fita na direção apropriada (direita ou esquerda). Se necessário, a fita é expandida dinamicamente para acomodar novos símbolos.
+
+Essa máquina pode ser facilmente adaptada para diferentes tipos de manipulação de entradas, modificando as transições e as regras de leitura/escrita conforme a necessidade.
