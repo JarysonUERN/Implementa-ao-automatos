@@ -15,38 +15,29 @@
 #define SIMBOLO_INICIAL_PILHA 'Z' // Não pode ser mudado facilmente
 #define MAX_PUSH_STRING 100
 
-// ... (O restante das suas structs 'ConjuntoCadeias', 'Pilha', 'DestinoAPN', 'TransicoesAPN' ... )
-
 // Estrutura da Pilha
 typedef struct {
     char S[MAX_TAMANHO_PILHA];
-    int topo; // Aponta para o índice do elemento no topo
+    int topo; 
 } Pilha;
-
-// Estrutura de Transição do APN
+// Estrutura para destinos de transições do APN
 typedef struct DestinoAPN {
     int proximo_estado;
     char para_empilhar[MAX_PUSH_STRING]; // Sequência de símbolos a empilhar
     struct DestinoAPN* proximo;
 } DestinoAPN;
 
-// Estrutura de Configuração de Transição do APN
 typedef struct {
     DestinoAPN* destinos[MAX_ESTADOS][MAX_ALFABETO + 1][MAX_ALFABETO_PILHA];
 } TransicoesAPN;
 
-// Estrutura de Configuração (estado, pilha) para simulação do APN
+
 typedef struct ConfiguracaoAPN {
     int estado_atual;
     Pilha pilha;
     struct ConfiguracaoAPN* proximo;
 } ConfiguracaoAPN;
 
-
-// --- Funções de Entrada (leNumEstados, lerAlfabeto) ---
-// ... (Seu código para leNumEstados e lerAlfabeto está ótimo) ...
-
-// Função para ler o número de estados 
 int leNumEstados()
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
@@ -133,7 +124,7 @@ int lerAlfabeto(char alfabeto[MAX_ALFABETO])
 }
 
 
-// Função para ler o alfabeto de pilha (COM CORREÇÃO)
+// Função para ler o alfabeto de pilha
 int lerAlfabetoPilha(char alfabeto_pilha[MAX_ALFABETO_PILHA])
 {
     char buffer_entrada[100];
@@ -144,11 +135,9 @@ int lerAlfabetoPilha(char alfabeto_pilha[MAX_ALFABETO_PILHA])
     int tam_buffer = strlen(buffer_entrada);
     int indice_unico = 0; 
     bool z_encontrado = false;
-
-    // Primeiro, adiciona os símbolos do usuário
     for (int i = 0; i < tam_buffer; i++)
     {
-        if (indice_unico >= MAX_ALFABETO_PILHA - 1) // Deixa espaço para Z
+        if (indice_unico >= MAX_ALFABETO_PILHA - 1) 
         {
             printf("Alfabeto de pilha muito grande. Truncando...\n");
             break;
@@ -172,12 +161,9 @@ int lerAlfabetoPilha(char alfabeto_pilha[MAX_ALFABETO_PILHA])
             indice_unico++;
         }
     }
-
-    // Garante que o símbolo inicial 'Z' esteja no alfabeto
     if (!z_encontrado) {
         if (indice_unico >= MAX_ALFABETO_PILHA) {
              printf("[ERRO] Alfabeto de pilha cheio, não foi possível adicionar 'Z'.\n");
-             // Isso é um estado de erro, mas vamos continuar por enquanto
              indice_unico = MAX_ALFABETO_PILHA - 1;
         } else {
              printf("  [Aviso] O simbolo inicial '%c' foi adicionado ao alfabeto de pilha.\n", SIMBOLO_INICIAL_PILHA);
@@ -200,7 +186,6 @@ int lerAlfabetoPilha(char alfabeto_pilha[MAX_ALFABETO_PILHA])
 }
 
 // --- Funções de Definição (Finais, Inicial) ---
-// ... (Seu código para defineEstadosFinais e defineEstadoInicial está ótimo) ...
 
 void defineEstadosFinais(int num_estados, bool estadosFinais[MAX_ESTADOS])
 {
@@ -247,7 +232,6 @@ int defineEstadoInicial(int num_estados)
 
 
 // --- Funções de Definição e Exibição de Transições ---
-// ... (Seu código para defineTransicoesAPN e mostraTabelaTransicoesAPN está ótimo) ...
 void defineTransicoesAPN(
     int num_estados,
     int tam_alfabeto,
@@ -257,7 +241,6 @@ void defineTransicoesAPN(
     TransicoesAPN* transicoes
 )
 {
-    // Inicializa todas as transições como NULL
     memset(transicoes, 0, sizeof(TransicoesAPN));
 
     printf("\n--- Definicao das Transicoes do APN (δ) ---\n");
@@ -268,11 +251,11 @@ void defineTransicoesAPN(
     printf("  - Digite '%c' para NÃO empilhar nada (apenas desempilhar).\n", LAMBDA);
 
 
-    for (int i = 0; i < num_estados; i++) // Para cada estado
+    for (int i = 0; i < num_estados; i++) 
     {
-        for (int j = 0; j <= tam_alfabeto; j++) // Para cada símbolo de entrada (+ lambda)
+        for (int j = 0; j <= tam_alfabeto; j++)
         {
-            for (int k = 0; k < tam_alfabeto_pilha; k++) // Para cada símbolo de pilha
+            for (int k = 0; k < tam_alfabeto_pilha; k++) 
             {
                 char simbolo_entrada;
                 if (j == tam_alfabeto) {
@@ -311,30 +294,23 @@ void defineTransicoesAPN(
                     char simbolos_empilhar[MAX_PUSH_STRING];
                     printf("  Simbolos a empilhar (ou '%c' para desempilhar): ", LAMBDA);
                     fgets(simbolos_empilhar, sizeof(simbolos_empilhar), stdin);
-                    
-                    // Remove newline
                     int len = strlen(simbolos_empilhar);
                     if (len > 0 && simbolos_empilhar[len - 1] == '\n') {
                         simbolos_empilhar[len - 1] = '\0';
                     }
 
-                    // Se for 'e', armazena "#" para diferenciar de string vazia
                     if (strcmp(simbolos_empilhar, "e") == 0 || len == 0) {
-                        strcpy(simbolos_empilhar, "#"); // Símbolo interno para "pop"
+                        strcpy(simbolos_empilhar, "#"); 
                     }
-
-                    // Cria novo destino
                     DestinoAPN* novo_destino = (DestinoAPN*)malloc(sizeof(DestinoAPN));
                     novo_destino->proximo_estado = proximo_estado;
                     strncpy(novo_destino->para_empilhar, simbolos_empilhar, MAX_PUSH_STRING - 1);
                     novo_destino->para_empilhar[MAX_PUSH_STRING - 1] = '\0';
                     novo_destino->proximo = NULL;
 
-                    // Insere na lista de destinos
                     if (transicoes->destinos[i][j][k] == NULL) {
                         transicoes->destinos[i][j][k] = novo_destino;
                     } else {
-                        // Encontra o fim da lista para adicionar
                         ultimo_destino = transicoes->destinos[i][j][k];
                         while (ultimo_destino->proximo != NULL) {
                             ultimo_destino = ultimo_destino->proximo;
@@ -399,14 +375,13 @@ void mostraTabelaTransicoesAPN(
 
 
 // --- Funções da Pilha ---
-// ... (Seu código está ótimo) ...
 void inicializar_pilha(Pilha* p, char simboloInicial) {
-    p->topo = -1; // Pilha começa vazia
-    empilhar(p, simboloInicial); // Empilha o primeiro símbolo
+    p->topo = -1; 
+    empilhar(p, simboloInicial); 
 }
 
 char ver_topo(Pilha* p) {
-    if (p->topo < 0) return '\0'; // Pilha vazia
+    if (p->topo < 0) return '\0'; 
     return p->S[p->topo];
 }
 
@@ -421,12 +396,11 @@ void empilhar(Pilha* p, char simbolo) {
         p->topo++;
         p->S[p->topo] = simbolo;
     }
-    // Adicionar tratamento de estouro de pilha em um app real
 }
 
 void empilhar_cadeia(Pilha* p, char* cadeia) {
     int len = strlen(cadeia);
-    // Empilha a cadeia na ordem inversa
+    // Ordem inversa para manter a sequência correta na pilha
     for (int i = len - 1; i >= 0; i--) {
         empilhar(p, cadeia[i]);
     }
@@ -435,13 +409,11 @@ void empilhar_cadeia(Pilha* p, char* cadeia) {
 Pilha copiar_pilha(Pilha* origem) {
     Pilha nova;
     nova.topo = origem->topo;
-    // Copia apenas a parte relevante da pilha
     memcpy(nova.S, origem->S, (origem->topo + 1) * sizeof(char));
     return nova;
 }
 
-// --- Funções de Busca de Símbolo ---
-// ... (Seu código 'encontrarIndiceSimbolo' está ótimo) ...
+// --- Funções de Busca de Símbolo ---.
 int encontrarIndiceSimbolo(char simbolo, char alfabeto[MAX_ALFABETO], int tam_alfabeto)
 {
     for (int i = 0; i < tam_alfabeto; i++)
@@ -454,7 +426,6 @@ int encontrarIndiceSimbolo(char simbolo, char alfabeto[MAX_ALFABETO], int tam_al
     return -1;
 }
 
-// [NOVA FUNÇÃO ADICIONADA]
 int encontrarIndiceSimboloPilha(char simbolo, char alfabeto_pilha[MAX_ALFABETO_PILHA], int tam_alfabeto_pilha)
 {
     for (int i = 0; i < tam_alfabeto_pilha; i++)
@@ -467,46 +438,30 @@ int encontrarIndiceSimboloPilha(char simbolo, char alfabeto_pilha[MAX_ALFABETO_P
     return -1;
 }
 
-
-// ===================================================================
-//
-//          INÍCIO DA LÓGICA DE SIMULAÇÃO CORRIGIDA
-//
-// ===================================================================
-
-// [NOVA FUNÇÃO AUXILIAR]
-// Compara se duas pilhas são idênticas
+//  Funçao q compara se duas pilhas são idênticas
 bool pilha_igual(Pilha* p1, Pilha* p2) {
     if (p1->topo != p2->topo) {
         return false;
     }
-    // Compara o conteúdo byte a byte
     return memcmp(p1->S, p2->S, p1->topo + 1) == 0;
 }
 
-// [NOVA FUNÇÃO AUXILIAR]
-// Adiciona uma nova configuração a uma lista, mas evita duplicatas
 void adicionar_config_sem_duplicata(ConfiguracaoAPN** lista_head, int estado, Pilha pilha) {
     ConfiguracaoAPN* atual = *lista_head;
-    
-    // 1. Verifica se a configuração (estado, pilha) já existe na lista
+
     while (atual != NULL) {
         if (atual->estado_atual == estado && pilha_igual(&atual->pilha, &pilha)) {
-            return; // Já existe, não faz nada
+            return; 
         }
         atual = atual->proximo;
     }
 
-    // 2. Se não existe, cria e adiciona no início da lista
     ConfiguracaoAPN* nova_config = (ConfiguracaoAPN*)malloc(sizeof(ConfiguracaoAPN));
     nova_config->estado_atual = estado;
-    nova_config->pilha = pilha; // Copia a estrutura da pilha
+    nova_config->pilha = pilha; 
     nova_config->proximo = *lista_head;
     *lista_head = nova_config;
 }
-
-// [NOVA FUNÇÃO AUXILIAR]
-// Libera a memória de uma lista de configurações
 void liberar_lista_config(ConfiguracaoAPN* lista_head) {
     while (lista_head != NULL) {
         ConfiguracaoAPN* temp = lista_head;
@@ -514,41 +469,38 @@ void liberar_lista_config(ConfiguracaoAPN* lista_head) {
         free(temp);
     }
 }
-
-// [NOVA FUNÇÃO AUXILIAR]
+// ===================================================================
 // Calcula o "Epsilon-Closure" (fecho-lambda) de um conjunto de configurações
 // Modifica o conjunto (config_set) no local, adicionando todos os estados
 // alcançáveis por transições 'e' (lambda).
+// ===================================================================
 void calcular_epsilon_closure(
-    ConfiguracaoAPN** config_set, // Ponteiro para a lista
+    ConfiguracaoAPN** config_set, 
     TransicoesAPN* transicoes,
-    int tam_alfabeto, // Usado para encontrar o índice lambda
+    int tam_alfabeto, 
     char alfabeto_pilha[MAX_ALFABETO_PILHA],
     int tam_alfabeto_pilha
 ) {
     bool mudanca = true;
     while (mudanca) {
         mudanca = false;
-        ConfiguracaoAPN* cfg = *config_set; // Itera sobre a lista
+        ConfiguracaoAPN* cfg = *config_set; 
         
         while (cfg != NULL) {
             char topo = ver_topo(&cfg->pilha);
             int idx_topo = encontrarIndiceSimboloPilha(topo, alfabeto_pilha, tam_alfabeto_pilha);
-            int idx_lambda = tam_alfabeto; // Índice de 'e' na tabela
+            int idx_lambda = tam_alfabeto; 
 
             if (idx_topo != -1) {
-                // Pega a lista de destinos para (estado, 'e', topo)
                 DestinoAPN* dest = transicoes->destinos[cfg->estado_atual][idx_lambda][idx_topo];
                 
                 while (dest != NULL) {
-                    // Cria a nova pilha para este "ramo"
                     Pilha nova_pilha = copiar_pilha(&cfg->pilha);
                     desempilhar(&nova_pilha);
                     if (strcmp(dest->para_empilhar, "#") != 0) {
                         empilhar_cadeia(&nova_pilha, dest->para_empilhar);
                     }
 
-                    // Verifica se esta nova config (estado, pilha) JÁ ESTÁ na lista
                     ConfiguracaoAPN* check = *config_set;
                     bool existe = false;
                     while (check != NULL) {
@@ -560,9 +512,8 @@ void calcular_epsilon_closure(
                     }
 
                     if (!existe) {
-                        // Se não existe, adiciona e marca que houve mudança
                         adicionar_config_sem_duplicata(config_set, dest->proximo_estado, nova_pilha);
-                        mudanca = true; // Força o loop a rodar de novo
+                        mudanca = true; 
                     }
                     dest = dest->proximo;
                 }
@@ -572,8 +523,7 @@ void calcular_epsilon_closure(
     }
 }
 
-// [FUNÇÃO PRINCIPAL SUBSTITUÍDA]
-// Simula o APN usando a lógica correta de BFS (Busca em Largura)
+// Simula o APN usando a lógica de BFS (Busca em Largura)
 bool simularAPN(
     char* cadeia,
     int estadoInicial,
@@ -589,18 +539,17 @@ bool simularAPN(
     printf("\n--- Simulacao do APN (BFS) ---\n");
     printf("Entrada: '%s'\n", (strlen(cadeia) == 0) ? "[vazio]" : cadeia);
 
-    // 1. Inicializa a pilha e o primeiro conjunto de configurações
     Pilha pilha_inicial;
     inicializar_pilha(&pilha_inicial, SIMBOLO_INICIAL_PILHA);
 
     ConfiguracaoAPN* current_set = NULL;
     adicionar_config_sem_duplicata(&current_set, estadoInicial, pilha_inicial);
 
-    // 2. Calcula o fecho-lambda inicial
+    //  Calcula o fecho-lambda inicial
     printf("Calculando E-Closure inicial...\n");
     calcular_epsilon_closure(&current_set, transicoes, tam_alfabeto, alfabeto_pilha, tam_alfabeto_pilha);
 
-    // 3. Itera sobre cada símbolo da cadeia de entrada
+    // Itera sobre cada símbolo da cadeia de entrada
     int tam_cadeia = strlen(cadeia);
     for (int i = 0; i < tam_cadeia; i++) {
         char simbolo_entrada = cadeia[i];
@@ -614,16 +563,13 @@ bool simularAPN(
              return false;
         }
 
-        ConfiguracaoAPN* next_set = NULL; // Conjunto para o próximo passo
-
-        // 4. Para CADA configuração no conjunto atual...
+        ConfiguracaoAPN* next_set = NULL; 
         ConfiguracaoAPN* cfg = current_set;
         while (cfg != NULL) {
             char topo = ver_topo(&cfg->pilha);
             int idx_topo = encontrarIndiceSimboloPilha(topo, alfabeto_pilha, tam_alfabeto_pilha);
 
             if (idx_topo != -1) {
-                // 5. ...encontra transições com o SÍMBOLO DE ENTRADA
                 DestinoAPN* dest = transicoes->destinos[cfg->estado_atual][idx_simbolo][idx_topo];
                 
                 while (dest != NULL) {
@@ -633,7 +579,6 @@ bool simularAPN(
                         empilhar_cadeia(&nova_pilha, dest->para_empilhar);
                     }
                     
-                    // 6. Adiciona o resultado ao 'next_set' (AINDA SEM FECHO-LAMBDA)
                     adicionar_config_sem_duplicata(&next_set, dest->proximo_estado, nova_pilha);
                     dest = dest->proximo;
                 }
@@ -641,19 +586,17 @@ bool simularAPN(
             cfg = cfg->proximo;
         }
 
-        liberar_lista_config(current_set); // Libera o conjunto antigo
+        liberar_lista_config(current_set); 
 
         if (next_set == NULL) {
             printf("  [REJEITADO] Nenhuma transicao possivel. O automato 'morreu'.\n");
             return false;
         }
 
-        // 7. Calcula o fecho-lambda do NOVO conjunto
         calcular_epsilon_closure(&next_set, transicoes, tam_alfabeto, alfabeto_pilha, tam_alfabeto_pilha);
         current_set = next_set; // O "próximo" vira o "atual"
     }
 
-    // 8. Fim da cadeia. Verifica se algum estado final foi alcançado.
     printf("\nFim da cadeia. Verificando estados finais...\n");
     bool aceito = false;
     ConfiguracaoAPN* cfg = current_set;
@@ -679,14 +622,7 @@ bool simularAPN(
     return aceito;
 }
 
-// ===================================================================
-//
-//          FIM DA LÓGICA DE SIMULAÇÃO CORRIGIDA
-//
-// ===================================================================
-
-
-// Função principal (sem alterações)
+// Função main
 int main()
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
@@ -727,7 +663,7 @@ int main()
         if (scanf("%d", &opcao_menu) != 1) {
             opcao_menu = -1; // Invalida
         }
-        getchar(); // Limpa o buffer
+        getchar(); 
 
         if (opcao_menu == 1)
         {
@@ -750,7 +686,7 @@ int main()
 
     printf("\n========== FIM DO PROGRAMA ==========\n");
     
-    // Libera a memória alocada para as transições (IMPORTANTE)
+    // Libera a memória alocada para as transições
     for (int i = 0; i < num_estados; i++) {
         for (int j = 0; j <= tam_alfabeto; j++) {
             for (int k = 0; k < tam_alfabeto_pilha; k++) {
