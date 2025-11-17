@@ -105,11 +105,11 @@ def visualizar_afd(caminho_json=None):
         font_size=10, font_weight="bold", arrowsize=20, connectionstyle="arc3,rad=0.1"
     )
 
-    # Desenha rótulos das arestas
+
     edge_labels = nx.get_edge_attributes(G, "label")
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=9)
 
-    # Adiciona a legenda
+    # --- LEGENDA ---
     normal_patch = mpatches.Patch(color='lightblue', ec='black', lw=1, label='Estado')
     initial_patch = mpatches.Patch(color='yellow', ec='black', lw=1, label='Estado Inicial (Preenchimento)')
     final_patch = mpatches.Patch(color='lightblue', ec='black', lw=3, label='Estado Final (Borda Grossa)')

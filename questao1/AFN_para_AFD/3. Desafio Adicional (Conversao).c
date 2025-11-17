@@ -51,12 +51,11 @@ int mapear_estado_nome_para_idx(NFA* nfa, const char* nome) {
             return i;
         }
     }
-    // Fallback se o nome não estiver na lista mas for padrão (ex: "q1")
     int idx = -1;
     if (sscanf(nome, "q%d", &idx) == 1 && idx < nfa->num_estados) {
          return idx;
     }
-    return -1; // Erro
+    return -1; // perseando erro
 }
 
 int mapear_simbolo_para_idx(NFA* nfa, char simbolo) {

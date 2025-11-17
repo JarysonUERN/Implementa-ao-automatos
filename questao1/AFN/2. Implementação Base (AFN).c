@@ -1,15 +1,3 @@
-/*
-Um AFN é formalmente definido por 5 componentes (a 5-tupla: $Q, \Sigma, \delta, q_0, F$):
-$Q$ (Conjunto de Estados): Representado por num_estados.
-$\Sigma$ (Alfabeto): Representado pelo array alfabeto e seu tamanho tam_alfabeto.
-$\delta$ (Função de Transição): Representada pela matriz 3D 
-    bool transicoes[MAX_ESTADOS][MAX_ALFABETO + 1][MAX_ESTADOS].
-    O índice [tam_alfabeto] é usado para transições lambda (epsilon).
-    transicoes[i][j][k] = true significa que $\delta(q_i, simbolo[j])$ contém $q_k$.
-$q_0$ (Estado Inicial): Representado pela variável int estadoInicial.
-$F$ (Conjunto de Estados Finais): Representado pelo array booleano bool estadosFinais[MAX_ESTADOS].
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
@@ -18,23 +6,19 @@ $F$ (Conjunto de Estados Finais): Representado pelo array booleano bool estadosF
 #include "visualize/afn_serializacao.c" 
 #include "../cJSON-1.7.19/cJSON.h"
 
-// Definindo limites máximos para alocação estática
+// Definindo limites e o simbolo para representar lambda
 #define MAX_ESTADOS 50
 #define MAX_ALFABETO 10
-#define LAMBDA 'e' // Caractere para representar Epsilon/Lambda
-#define MAX_CADEIAS 10000 // Máximo de cadeias a armazenar
-#define MAX_COMPRIMENTO_CADEIA 100 // Máximo de caracteres por cadeia
+#define LAMBDA 'e' 
+#define MAX_CADEIAS 10000 
+#define MAX_COMPRIMENTO_CADEIA 100 
 
-
-// Estrutura para armazenar cadeias aceitas
 typedef struct {
     char cadeias[MAX_CADEIAS][MAX_COMPRIMENTO_CADEIA];
     int total;
-    int limite_atingido; // Flag indicando se atingiu o limite
+    int limite_atingido; 
 } ConjuntoCadeias;
 
-
-// Funções originais (reutilizadas)
 int leNumEstados();
 int lerAlfabeto(char alfabeto[MAX_ALFABETO]);
 void defineEstadosFinais(int num_estados, bool estadosFinais[MAX_ESTADOS]);

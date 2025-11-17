@@ -11,7 +11,7 @@ estado_aceitacao = "q_accept"
 estado_rejeicao = "q_reject"
 estado_atual = estado_inicial
 
-# Função de transição: (estado_atual, simbolo_lido) -> (proximo_estado, simbolo_escrito, direcao)
+# Função de transição
 transicoes = {
     ("q0", "0"): ("q0", "1", "R"),
     ("q0", "1"): ("q0", "0", "R"),
@@ -54,7 +54,6 @@ while True:
     elif cabeca >= len(fita):
         fita.append("_")
 
-    # Visualização passo a passo (opcional)
     print("Fita:", "".join(fita), "Cabeça:", cabeca, "Estado:", estado_atual)
 
     # Verifica estado final
