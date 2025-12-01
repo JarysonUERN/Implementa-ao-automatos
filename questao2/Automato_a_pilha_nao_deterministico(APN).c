@@ -12,7 +12,7 @@
 #define MAX_CADEIAS 10000 
 #define MAX_COMPRIMENTO_CADEIA 100 
 #define MAX_TAMANHO_PILHA 500
-#define SIMBOLO_INICIAL_PILHA 'Z' // Não pode ser mudado facilmente
+#define SIMBOLO_INICIAL_PILHA 'Z' 
 #define MAX_PUSH_STRING 100
 
 // Estrutura da Pilha
@@ -23,7 +23,7 @@ typedef struct {
 // Estrutura para destinos de transições do APN
 typedef struct DestinoAPN {
     int proximo_estado;
-    char para_empilhar[MAX_PUSH_STRING]; // Sequência de símbolos a empilhar
+    char para_empilhar[MAX_PUSH_STRING];
     struct DestinoAPN* proximo;
 } DestinoAPN;
 
